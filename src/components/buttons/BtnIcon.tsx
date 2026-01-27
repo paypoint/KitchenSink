@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from "react";
 import { Platform, Pressable, View, ViewStyle, Vibration } from "react-native";
-import { colors, radius } from "../../theme";
+import { radius } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 type Props = {
   icon: React.ReactNode;     // Icon element (MaterialIcon, SVG, etc.)
@@ -24,6 +25,8 @@ export function BtnIcon({
   style,
   vibrationDuration = 70,
 }: Props) {
+  const { colors } = useTheme();
+
   return (
     <Pressable
       disabled={disabled}

@@ -1,7 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import { AppText } from "../AppText";
-import { colors, spacing, radius } from "../../theme";
+import { spacing, radius } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 export type StepStatus = "completed" | "active" | "pending";
 
@@ -17,6 +18,8 @@ type Props = {
 };
 
 export function VerticalStepper({ steps }: Props) {
+    const { colors } = useTheme();
+
     return (
         <View>
             {steps.map((step, index) => {
@@ -30,13 +33,14 @@ export function VerticalStepper({ steps }: Props) {
                             <View
                                 style={[
                                     styles.circle,
-                                    step.status === "completed" && styles.completed,
-                                    step.status === "active" && styles.active,
+                                    { backgroundColor: colors.outlineVariant },
+                                    step.status === "completed" && { backgroundColor: colors.primary },
+                                    step.status === "active" && { backgroundColor: colors.primary, borderColor: colors.primaryContainer },
                                 ]}
                             />
 
                             {/* Line */}
-                            {!isLast && <View style={styles.line} />}
+                            {!isLast && <View style={[styles.line, { backgroundColor: colors.outlineVariant }]} />}
                         </View>
 
                         {/* CONTENT */}
@@ -84,24 +88,16 @@ const styles = StyleSheet.create({
         width: 16,
         height: 16,
         borderRadius: radius.pill,
-        backgroundColor: colors.outlineVariant,
         marginTop: 2,
     },
 
-    completed: {
-        backgroundColor: colors.primary,
-    },
-
     active: {
-        backgroundColor: colors.primary,
         borderWidth: 3,
-        borderColor: colors.primaryContainer,
     },
 
     line: {
         flex: 1,
         width: 2,
-        backgroundColor: colors.outlineVariant,
         marginTop: 4,
     },
 

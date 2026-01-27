@@ -3,7 +3,7 @@ import { Animated, Pressable, StyleSheet, View, ViewStyle, Platform } from "reac
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { FAB } from "./FAB";
-import { colors } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -34,6 +34,7 @@ export function FABMenu({
   items,
   style,
 }: Props) {
+  const { colors } = useTheme();
   const anim = useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets(); // Safe area for Android & iOS
 
@@ -59,7 +60,7 @@ export function FABMenu({
           onPress={onToggle}
         >
           <Animated.View
-            style={[styles.scrim, { opacity: scrimOpacity }]}
+            style={[styles.scrim, { opacity: scrimOpacity, backgroundColor: colors.scrim }]}
           />
         </Pressable>
       )}
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
 
   scrim: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: colors.scrim,
   },
 
   itemsWrap: {

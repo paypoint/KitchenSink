@@ -6,7 +6,8 @@ import DeviceInfo from "react-native-device-info";
 import { AppModal } from "./AppModal";
 import { AppText } from "../AppText";
 import { BtnApp } from "../buttons/BtnApp";
-import { colors, spacing, radius } from "../../theme";
+import { spacing, radius } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 type DeviceInfoModalProps = {
   open: boolean;        // Modal visibility
@@ -14,6 +15,7 @@ type DeviceInfoModalProps = {
 };
 
 export function DeviceInfoModal({ open, onClose }: DeviceInfoModalProps) {
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
 
@@ -68,7 +70,7 @@ export function DeviceInfoModal({ open, onClose }: DeviceInfoModalProps) {
       >
         <View style={{ gap: spacing.md }}>
           {info.map((row) => (
-            <View key={row.k} style={styles.row}>
+            <View key={row.k} style={[styles.row, { borderColor: colors.outlineVariant, backgroundColor: colors.surface }]}>
               <AppText
                 variant="caption"
                 style={[
@@ -96,7 +98,7 @@ export function DeviceInfoModal({ open, onClose }: DeviceInfoModalProps) {
             </View>
           ))}
 
-          <View style={styles.note}>
+          <View style={[styles.note, { backgroundColor: colors.surfaceVariant, borderColor: colors.outlineVariant }]}>
             <AppText variant="caption" style={{ color: colors.onSurfaceVariant }}>
               SafeInsets values help debug cut/notch issues on Oppo/Vivo/Realme devices.
             </AppText>
@@ -112,9 +114,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
     borderRadius: radius.lg,
-    backgroundColor: colors.surface,
   },
   key: {
     opacity: 0.7,
@@ -126,9 +126,7 @@ const styles = StyleSheet.create({
   note: {
     padding: 12,
     borderRadius: radius.lg,
-    backgroundColor: colors.surfaceVariant,
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
   },
 });
 

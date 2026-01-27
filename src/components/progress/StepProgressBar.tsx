@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, ViewStyle } from "react-native";
-import { colors, radius, spacing } from "../../theme";
+import { radius, spacing } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -17,6 +18,8 @@ export function StepProgressBar({
   currentStep,
   style,
 }: Props) {
+  const { colors } = useTheme();
+
   return (
     <View style={[styles.container, style]}>
       {Array.from({ length: steps }).map((_, index) => {

@@ -9,7 +9,8 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import { AppText } from "../AppText";
-import { colors, radius, spacing } from "../../theme";
+import { radius, spacing } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -63,6 +64,7 @@ export function FileUpload({
   containerStyle,
   types = [PickerTypes.allFiles],
 }: Props) {
+  const { colors } = useTheme();
   const [focused, setFocused] = useState(false);
 
   // Show clear icon when file exists
@@ -107,21 +109,22 @@ export function FileUpload({
         onPressIn={() => setFocused(true)}
         onPressOut={() => setFocused(false)}
         disabled={disabled || loading}
-        android_ripple={{ color: "rgba(103,80,164,0.12)" }}
+        android_ripple={{ color: colors.primaryContainer }}
         style={({ pressed }) => [
           styles.base,
-          focused && styles.focused,
-          error && styles.error,
+          { borderColor: colors.outline, backgroundColor: colors.surface },
+          focused && { borderColor: colors.primary },
+          error && { borderColor: colors.error },
           disabled && styles.disabled,
           { opacity: pressed && Platform.OS === "ios" ? 0.88 : 1 },
         ]}
       >
         {/* Left Icon */}
-        <View style={styles.iconWrap}>
+        <View style={[styles.iconWrap, { backgroundColor: colors.primaryContainer }]}>
           <MaterialIcons
             name={meta ? "description" : leftIcon}
             size={20}
-            color={disabled ? colors.onSurfaceVariant : colors.primary}
+            color={disabled ? colors.onSurfaceVariant : colors.onPrimaryContainer}
           />
         </View>
 
@@ -198,20 +201,10 @@ const styles = StyleSheet.create({
     minHeight: 56,
     borderWidth: 1,
     borderRadius: radius.lg,
-    borderColor: colors.outline,
-    backgroundColor: colors.surface,
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.md,
     paddingHorizontal: spacing.lg,
-  },
-
-  focused: {
-    borderColor: colors.primary,
-  },
-
-  error: {
-    borderColor: colors.error,
   },
 
   disabled: {
@@ -224,7 +217,6 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(103,80,164,0.08)",
   },
 
   meta: {

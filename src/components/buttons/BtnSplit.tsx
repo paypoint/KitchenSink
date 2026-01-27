@@ -1,7 +1,8 @@
 import React from "react";
 import { Platform, Pressable, StyleSheet, View, Vibration } from "react-native";
 import { AppText } from "../AppText";
-import { colors, radius } from "../../theme";
+import { radius } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 type Props = {
   title: string;                    // Main button label
@@ -18,8 +19,10 @@ export function BtnSplit({
   secondaryIcon,
   vibrationDuration = 70,
 }: Props) {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.wrap}>
+    <View style={[styles.wrap, { backgroundColor: colors.primary }]}>
       {/* PRIMARY BUTTON */}
       <Pressable
         onPress={onPress ? () => {
@@ -70,7 +73,6 @@ const styles = StyleSheet.create({
   wrap: {
     height: 48,
     flexDirection: "row",
-    backgroundColor: colors.primary,
     borderRadius: radius.pill,
     overflow: "hidden",
   },

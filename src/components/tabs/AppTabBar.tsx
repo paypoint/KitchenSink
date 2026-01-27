@@ -3,14 +3,17 @@ import { View, Pressable, StyleSheet } from "react-native";
 import { TabBarProps } from "react-native-tab-view";
 
 import { AppText } from "../AppText";
-import { colors, spacing } from "../../theme";
+import { spacing } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 export function AppTabBar<T extends { key: string; title: string }>({
   navigationState,
   jumpTo,
 }: TabBarProps<T>) {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface, borderBottomColor: colors.outlineVariant }]}>
       {navigationState.routes.map((route, index) => {
         const active = navigationState.index === index;
 
@@ -18,12 +21,16 @@ export function AppTabBar<T extends { key: string; title: string }>({
           <Pressable
             key={route.key}
             onPress={() => jumpTo(route.key)}
-            style={[styles.tab, active && styles.activeTab]}
+            style={[
+              styles.tab,
+              active && { borderBottomColor: colors.primary, borderBottomWidth: 2 }
+            ]}
           >
             <AppText
               variant="body"
               style={[
                 styles.label,
+                { color: active ? colors.primary : colors.onSurfaceVariant },
                 active && styles.activeLabel,
               ]}
             >
@@ -39,9 +46,7 @@ export function AppTabBar<T extends { key: string; title: string }>({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: colors.outlineVariant,
   },
 
   tab: {
@@ -50,17 +55,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  activeTab: {
-    borderBottomWidth: 2,
-    borderBottomColor: colors.primary,
-  },
-
   label: {
-    color: colors.onSurfaceVariant,
+    // color handled inline
   },
 
   activeLabel: {
-    color: colors.primary,
     fontWeight: "700",
   },
 });

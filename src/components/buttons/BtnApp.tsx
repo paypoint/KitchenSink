@@ -8,8 +8,9 @@ import {
     Vibration,
 } from "react-native";
 import { AppText } from "../AppText";
-import { colors, radius, spacing } from "../../theme";
+import { radius, spacing } from "../../theme";
 import { useResponsive } from "../../hooks/useResponsive";
+import { useTheme } from "../../context/ThemeContext";
 
 export type BtnVariant = "filled" | "outlined" | "tonal" | "text";
 export type BtnSize = "sm" | "md" | "lg";
@@ -48,6 +49,7 @@ export function BtnApp({
     style,
     vibrationDuration = 70,
 }: BtnAppProps) {
+    const { colors } = useTheme();
 
     const isDisabled = disabled || loading;
 

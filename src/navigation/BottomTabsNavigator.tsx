@@ -4,15 +4,22 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import { colors } from '../theme';
+import { useTheme } from '../context/ThemeContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabsNavigator() {
+  const { colors } = useTheme();
+
   return (
     <Tab.Navigator screenOptions={{
       headerShown: false,
       tabBarActiveTintColor: colors.primary,
+      tabBarInactiveTintColor: colors.onSurfaceVariant,
+      tabBarStyle: {
+        backgroundColor: colors.surface,
+        borderTopColor: colors.outlineVariant,
+      }
     }}>
       <Tab.Screen
         name="Home"

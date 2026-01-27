@@ -1,7 +1,8 @@
 import React from "react";
 import {Platform,Pressable,StyleSheet,Text,View,ViewStyle} from "react-native";
 
-import { colors, spacing, radius } from '../../theme';
+import { spacing, radius } from '../../theme';
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -15,6 +16,7 @@ type Props = {
 /* ================= COMPONENT ================= */
 
 export function FAB({ icon, label, onPress, style }: Props) {
+    const { colors } = useTheme();
     const isExtended = !!label;
 
     return (
@@ -23,6 +25,7 @@ export function FAB({ icon, label, onPress, style }: Props) {
             android_ripple={{ color: "rgba(0,0,0,0.12)", borderless: true }}
             style={({ pressed }) => [
                 styles.base,
+                { backgroundColor: colors.primaryContainer },
                 isExtended ? styles.extended : styles.normal,
                 {
                     opacity: pressed && Platform.OS === "ios" ? 0.88 : 1,
@@ -41,6 +44,7 @@ export function FAB({ icon, label, onPress, style }: Props) {
                     numberOfLines={1}
                     style={[
                         styles.label,
+                        { color: colors.onSurface },
                         Platform.OS === "android" && {
                             includeFontPadding: false,
                             textAlignVertical: "center",
@@ -58,7 +62,6 @@ export function FAB({ icon, label, onPress, style }: Props) {
 
 const styles = StyleSheet.create({
     base: {
-        backgroundColor: colors.primaryContainer,
         borderRadius: radius.xl,
         flexDirection: "row",
         alignItems: "center",
@@ -100,7 +103,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 20,
         fontWeight: "700",
-        color: colors.onSurface,
     },
 });
 

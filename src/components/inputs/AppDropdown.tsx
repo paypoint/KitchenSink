@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { colors } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 import { AppText } from "../AppText";
 
 /**
@@ -38,11 +38,13 @@ export function AppDropdown({
   error,
   onChange,
 }: Props) {
+  const { colors } = useTheme();
+
   return (
     <View style={styles.wrapper}>
       {/* Label */}
       {label && (
-        <AppText variant="title" style={styles.label}>
+        <AppText variant="title" style={[styles.label, { color: colors.onSurfaceVariant }]}>
           {label}
         </AppText>
       )}
@@ -51,12 +53,16 @@ export function AppDropdown({
       <Dropdown
         style={[
           styles.dropdown,
-          error && styles.errorBorder,     // Error border
-          disabled && styles.disabled,     // Disabled background
+          {
+            backgroundColor: colors.surface,
+            borderColor: colors.outlineVariant,
+          },
+          error && { borderColor: colors.error },
+          disabled && { backgroundColor: colors.disabled },
         ]}
-        containerStyle={styles.dropdownContainer} // Dropdown list container
+        containerStyle={[styles.dropdownContainer, { backgroundColor: colors.surface }]}
         itemContainerStyle={styles.itemContainer} // Each item container
-        itemTextStyle={styles.itemText}           // Item text
+        itemTextStyle={[styles.itemText, { color: colors.onSurface }]}
 
         data={options}               // Options list
         labelField="label"           // Display field
@@ -65,6 +71,9 @@ export function AppDropdown({
         placeholder={placeholder}    // Placeholder text
         search={searchable}          // Enable search
         disable={disabled}           // Disable dropdown
+        activeColor={colors.surfaceVariant}
+        placeholderStyle={{ color: colors.onSurfaceVariant, fontSize: 16 }}
+        selectedTextStyle={{ color: colors.onSurface, fontSize: 16 }}
 
         onChange={(item) => onChange(item.value)} // Return selected value
 
@@ -79,7 +88,7 @@ export function AppDropdown({
 
       {/* Error Message */}
       {error && (
-        <AppText variant="caption" style={styles.errorText}>
+        <AppText variant="caption" style={[styles.errorText, { color: colors.error }]}>
           {error}
         </AppText>
       )}
@@ -95,22 +104,17 @@ const styles = StyleSheet.create({
 
   label: {
     marginBottom: 6,
-    color: colors.onSurfaceVariant,
   },
 
   dropdown: {
     height: 52,
     paddingHorizontal: 16,
     borderRadius: 16,
-
-    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
   },
 
   dropdownContainer: {
     borderRadius: 16,
-    backgroundColor: colors.surface,
     elevation: 12, // Android shadow
     zIndex: 999,   // iOS overlay
   },
@@ -123,19 +127,9 @@ const styles = StyleSheet.create({
 
   itemText: {
     fontSize: 16,
-    color: colors.onSurface,
-  },
-
-  disabled: {
-    backgroundColor: colors.disabled,
-  },
-
-  errorBorder: {
-    borderColor: colors.error,
   },
 
   errorText: {
-    color: colors.error,
     marginTop: 4,
   },
 });

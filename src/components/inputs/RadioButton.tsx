@@ -2,7 +2,7 @@ import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AppText } from "../AppText";
-import { colors } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -15,6 +15,8 @@ type Props = {
 /* ================= COMPONENT ================= */
 
 export function RadioButton({ label, selected, onSelect }: Props) {
+  const { colors } = useTheme();
+
   return (
     <Pressable style={styles.row} onPress={onSelect}>
       <MaterialIcons

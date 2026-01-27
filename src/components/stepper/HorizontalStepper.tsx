@@ -3,7 +3,8 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import { AppText } from "../AppText";
-import { colors, spacing } from "../../theme";
+import { spacing } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -23,6 +24,8 @@ interface HorizontalStepperProps {
 /* ================= COMPONENT ================= */
 
 export const HorizontalStepper = ({ steps }: HorizontalStepperProps) => {
+  const { colors } = useTheme();
+
   return (
     <View style={styles.container}>
       {steps.map((step, index) => {
@@ -38,8 +41,9 @@ export const HorizontalStepper = ({ steps }: HorizontalStepperProps) => {
               onPress={step.onPress}
               style={[
                 styles.circle,
-                isCompleted && styles.completedCircle,
-                isActive && styles.activeCircle,
+                { borderColor: colors.outline, backgroundColor: colors.surface },
+                isCompleted && { backgroundColor: colors.primary, borderColor: colors.primary },
+                isActive && { borderColor: colors.primary },
               ]}
             >
               {isCompleted ? (
@@ -61,7 +65,8 @@ export const HorizontalStepper = ({ steps }: HorizontalStepperProps) => {
               variant="caption"
               style={[
                 styles.label,
-                isActive && { color: colors.primary },
+                { color: colors.onSurfaceVariant },
+                isActive && { color: colors.primary }
               ]}
             >
               {step.title}
@@ -72,7 +77,8 @@ export const HorizontalStepper = ({ steps }: HorizontalStepperProps) => {
               <View
                 style={[
                   styles.line,
-                  isCompleted && styles.completedLine,
+                  { backgroundColor: colors.outline },
+                  isCompleted && { backgroundColor: colors.primary },
                 ]}
               />
             )}
@@ -104,25 +110,13 @@ const styles = StyleSheet.create({
     height: CIRCLE_SIZE,
     borderRadius: CIRCLE_SIZE / 2,
     borderWidth: 2,
-    borderColor: colors.outline,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.surface,
-  },
-
-  completedCircle: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-
-  activeCircle: {
-    borderColor: colors.primary,
   },
 
   label: {
     marginTop: spacing.xs,
     textAlign: "center",
-    color: colors.onSurfaceVariant,
   },
 
   line: {
@@ -131,12 +125,7 @@ const styles = StyleSheet.create({
     left: "50%",
     right: "-50%",
     height: 2,
-    backgroundColor: colors.outline,
     zIndex: -1,
-  },
-
-  completedLine: {
-    backgroundColor: colors.primary,
   },
 });
 

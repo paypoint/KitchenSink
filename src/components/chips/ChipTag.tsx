@@ -1,7 +1,8 @@
 import React from "react";
 import { Platform, Pressable, StyleSheet, ViewStyle } from "react-native";
 import { AppText } from "../AppText";
-import { colors, spacing, radius } from "../../theme";
+import { spacing, radius } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 export type ChipVariant = "filled" | "outlined";
 
@@ -22,6 +23,7 @@ export function ChipTag({
   onPress,
   style,
 }: ChipTagProps) {
+  const { colors } = useTheme();
   const isFilled = variant === "filled" || selected;
 
   const bgColor = isFilled ? colors.primaryContainer : "transparent";
@@ -36,7 +38,7 @@ export function ChipTag({
     <Pressable
       disabled={disabled}
       onPress={onPress}
-      android_ripple={{ color: "rgba(103,80,164,0.12)" }}
+      android_ripple={{ color: colors.primaryContainer }}
       style={({ pressed }) => [
         styles.base,
         {

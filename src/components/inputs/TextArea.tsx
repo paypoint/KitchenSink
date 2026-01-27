@@ -10,7 +10,8 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import { AppText } from "../AppText";
-import { colors, radius, spacing, typography } from "../../theme";
+import { radius, spacing, typography } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -42,6 +43,7 @@ export function TextArea({
   editable = true,
   ...props
 }: Props) {
+  const { colors } = useTheme();
   const [focused, setFocused] = useState(false);
   const ref = useRef<TextInput>(null);
 
@@ -65,8 +67,9 @@ export function TextArea({
       <View
         style={[
           styles.container,
-          focused && !error && styles.focused,
-          error && styles.error,
+          { borderColor: colors.outline, backgroundColor: colors.surface },
+          focused && !error && { borderColor: colors.primary },
+          error && { borderColor: colors.error },
           !editable && styles.disabled,
         ]}
       >
@@ -85,7 +88,7 @@ export function TextArea({
           value={value}
           editable={editable}
           onChangeText={onChangeText}
-          style={[styles.input, style]}
+          style={[styles.input, { color: colors.onSurface }, style]}
           placeholderTextColor={colors.onSurfaceVariant}
           textAlignVertical="top" // ✅ Android fix
           onFocus={() => setFocused(true)}
@@ -138,16 +141,6 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     borderWidth: 1,
     borderRadius: radius.lg,
-    borderColor: colors.outline,
-    backgroundColor: colors.surface,
-  },
-
-  focused: {
-    borderColor: colors.primary,
-  },
-
-  error: {
-    borderColor: colors.error,
   },
 
   disabled: {
@@ -160,7 +153,6 @@ const styles = StyleSheet.create({
     fontSize: typography.body.fontSize,
     lineHeight: typography.body.lineHeight,
     fontWeight: typography.body.fontWeight,
-    color: colors.onSurface,
     padding: 0, // important for multiline
   },
 });

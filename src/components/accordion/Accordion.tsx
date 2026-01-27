@@ -3,7 +3,7 @@ import {View,Pressable,StyleSheet,Animated,Easing} from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import { AppText } from "../AppText";
-import { colors } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* Accordion item type */
 export type AccordionItem = {
@@ -62,6 +62,7 @@ function AccordionRow({
   onToggle: () => void;
   children: ReactNode;
 }) {
+  const { colors } = useTheme();
   const anim = useRef(new Animated.Value(isOpen ? 1 : 0)).current;
 
   useEffect(() => {
@@ -84,13 +85,14 @@ function AccordionRow({
   });
 
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, { borderBottomColor: colors.outlineVariant }]}>
       {/* Header */}
       <Pressable
         onPress={onToggle}
         style={({ pressed }) => [
           styles.header,
           pressed && styles.pressed,
+          { backgroundColor: colors.primaryContainer },
         ]}
       >
         <AppText variant="body">{title}</AppText>
@@ -101,7 +103,7 @@ function AccordionRow({
       </Pressable>
 
       {/* Content */}
-      <Animated.View style={[styles.content, { height }]}>
+      <Animated.View style={[styles.content, { height, backgroundColor: colors.surface }]}>
         <View style={styles.inner}>{children}</View>
       </Animated.View>
     </View>
@@ -117,7 +119,6 @@ const styles = StyleSheet.create({
 
   item: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.outlineVariant,
   },
 
   header: {
@@ -126,7 +127,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 14,
-    backgroundColor: colors.primaryContainer,
   },
 
   pressed: {
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
 
   content: {
     overflow: "hidden",
-    backgroundColor: colors.surface,
   },
 
   inner: {

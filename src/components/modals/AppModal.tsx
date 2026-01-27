@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Modal, Platform, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 
-import { colors } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 type AppModalProps = {
   open: boolean;                // Modal visibility
@@ -18,6 +18,7 @@ export function AppModal({
   children,
   actions,
 }: AppModalProps) {
+  const { colors } = useTheme();
   const { width } = useWindowDimensions();
 
   // animation values
@@ -63,11 +64,8 @@ export function AppModal({
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor: "#000",
-              opacity: opacity.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 0.45],
-              }),
+              backgroundColor: colors.scrim,
+              opacity: opacity,
             },
           ]}
         />
@@ -82,6 +80,7 @@ export function AppModal({
               width: dialogWidth,
               opacity,
               transform: [{ scale }],
+              backgroundColor: colors.surface,
             },
           ]}
         >
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
 
   dialog: {
     borderRadius: 28,
-    backgroundColor: colors.surface,
     paddingTop: 20,
     paddingHorizontal: 20,
     paddingBottom: 14,

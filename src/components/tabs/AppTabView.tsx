@@ -3,6 +3,7 @@ import { useWindowDimensions } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 
 import { AppTabBar } from "./AppTabBar";
+import { useTheme } from "../../context/ThemeContext";
 
 type TabItem = {
   key: string;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export function AppTabView({ tabs }: Props) {
+  const { colors } = useTheme();
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
 
@@ -32,6 +34,7 @@ export function AppTabView({ tabs }: Props) {
       onIndexChange={setIndex}
       initialLayout={{ width: layout.width }}
       lazy
+      // sceneContainerStyle={{ backgroundColor: colors.background }}
       renderTabBar={(props) => <AppTabBar {...props} />}
     />
   );

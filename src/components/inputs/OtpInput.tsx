@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 
 import { AppText } from "../AppText";
-import { colors } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* Props */
 type Props = {
@@ -21,6 +21,7 @@ export function OtpInput({
     length = 6,
     helperText,
 }: Props) {
+    const { colors } = useTheme();
     const inputs = useRef<TextInput[]>([]);
 
     /* Handle number input */
@@ -69,7 +70,14 @@ export function OtpInput({
                             if (r) inputs.current[i] = r;
                         }}
                         value={value[i] || ""}
-                        style={styles.input}
+                        style={[
+                            styles.input,
+                            {
+                                borderColor: colors.outline,
+                                color: colors.onSurface,
+                                backgroundColor: colors.surface,
+                            }
+                        ]}
                         keyboardType="number-pad"
                         maxLength={1}
                         textAlign="center"
@@ -101,10 +109,7 @@ const styles = StyleSheet.create({
         height: 56,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: colors.outline,
         fontSize: 18,
-        color: colors.onSurface,
-        backgroundColor: colors.surface,
     },
 });
 

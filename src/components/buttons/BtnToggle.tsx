@@ -1,7 +1,8 @@
 import React from "react";
 import { Platform, Pressable, StyleSheet, ViewStyle, Vibration } from "react-native";
 import { AppText } from "../AppText";
-import { colors, radius } from "../../theme";
+import { radius } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 type Props = {
   label: string;               // Toggle label text
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export function BtnToggle({ label, selected, onPress, style, vibrationDuration = 70 }: Props) {
+  const { colors } = useTheme();
+
   return (
     <Pressable
       onPress={onPress ? () => {

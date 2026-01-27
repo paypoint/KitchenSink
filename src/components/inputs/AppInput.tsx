@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AppText } from "../AppText";
-import { colors, radius, spacing, typography } from "../../theme";
+import { radius, spacing, typography } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -45,6 +46,7 @@ export function AppInput({
   multiline,
   ...props
 }: Props) {
+  const { colors } = useTheme();
   const inputRef = useRef<TextInput>(null);
   const [focused, setFocused] = useState(false);
 
@@ -59,9 +61,11 @@ export function AppInput({
       <View
         style={[
           styles.base,
-          styles[variant],
-          focused && styles.focused,
-          error && styles.error,
+          variant === "outlined" && { borderWidth: 1, borderRadius: radius.lg, borderColor: colors.outline },
+          variant === "filled" && { backgroundColor: colors.surfaceVariant, borderRadius: radius.lg },
+          variant === "underlined" && { borderBottomWidth: 1, borderColor: colors.outline },
+          focused && { borderColor: colors.primary },
+          error && { borderColor: colors.error },
           multiline && styles.textArea,
         ]}
       >
@@ -87,6 +91,7 @@ export function AppInput({
           style={[
             styles.input,
             multiline && styles.multilineInput,
+            { color: colors.onSurface },
             style,
           ]}
           onFocus={() => setFocused(true)}
@@ -146,30 +151,6 @@ const styles = {
     paddingHorizontal: spacing.lg,
   },
 
-  outlined: {
-    borderWidth: 1,
-    borderRadius: radius.lg,
-    borderColor: colors.outline,
-  },
-
-  filled: {
-    backgroundColor: colors.surfaceVariant,
-    borderRadius: radius.lg,
-  },
-
-  underlined: {
-    borderBottomWidth: 1,
-    borderColor: colors.outline,
-  },
-
-  focused: {
-    borderColor: colors.primary,
-  },
-
-  error: {
-    borderColor: colors.error,
-  },
-
   textArea: {
     minHeight: 120,
     alignItems: "flex-start",
@@ -181,7 +162,6 @@ const styles = {
     fontSize: typography.body.fontSize,
     lineHeight: typography.body.lineHeight,
     fontWeight: typography.body.fontWeight,
-    color: colors.onSurface,
     paddingVertical: Platform.OS === "android" ? 0 : spacing.sm,
   },
 

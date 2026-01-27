@@ -8,7 +8,7 @@ import {
     NativeSyntheticEvent,
     useWindowDimensions,
 } from "react-native";
-import { colors } from "../../theme";
+import { useTheme } from "../../context/ThemeContext";
 
 /* ================= TYPES ================= */
 
@@ -27,6 +27,7 @@ export function ImgSlider({
     autoPlay = true,
     interval = 3000,
 }: Props) {
+    const { colors } = useTheme();
     const { width } = useWindowDimensions();
     const flatListRef = useRef<FlatList>(null);
 
@@ -92,7 +93,8 @@ export function ImgSlider({
                         key={i}
                         style={[
                             styles.dot,
-                            activeIndex === i && styles.activeDot,
+                            { backgroundColor: colors.primaryContainer },
+                            activeIndex === i && { backgroundColor: colors.primary, width: 10 },
                         ]}
                     />
                 ))}
@@ -119,12 +121,7 @@ const styles = StyleSheet.create({
         width: 8,
         height: 8,
         borderRadius: 4,
-        backgroundColor: colors.primaryContainer,
         marginHorizontal: 4,
-    },
-    activeDot: {
-        width: 10,
-        backgroundColor: colors.primary,
     },
 });
 
