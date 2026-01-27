@@ -52,7 +52,9 @@ import { HorizontalStepper } from '../components/stepper/HorizontalStepper';
 
 import { StepProgressBar } from '../components/progress/StepProgressBar';
 import { FABMenu } from '../components/fab/FABMenu';
-
+import { TopBar } from '../components/topbar/TopBar';
+import { useNavigation } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const KitchenSink = () => {
 
@@ -101,6 +103,8 @@ const KitchenSink = () => {
 
     const [fabOpen, setFabOpen] = useState(false); // Floating Action Button (FAB)
 
+    const navigation = useNavigation<DrawerNavigationProp<any>>();
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
 
@@ -118,6 +122,14 @@ const KitchenSink = () => {
                     onHide={() => setNotification(null)}
                 />
             )}
+
+            <TopBar
+                title="KitchenSink"
+                onMenu={() => navigation.openDrawer()}
+                onSearch={() => setNotification("success")}
+                onAction={() => setNotification("success")}
+                rightAvatar={<BtnIcon icon={<MaterialIcons name="person" size={24} />} onPress={() => navigation.navigate("Profile")} />}
+            />
 
             <KeyboardAwareScrollView
                 enableOnAndroid
@@ -861,12 +873,32 @@ const KitchenSink = () => {
                     </View>
                 </AppCard>
 
+                {/* ================= Bottom Tabs Navigation ================= */}
+                <AppCard style={{ margin: spacing.lg }}>
+                    <AppText variant="title" style={{ marginBottom: spacing.md }}>Bottom Tabs Navigation</AppText>
+
+                    {/* Bottom Tabs */}
+                    <BtnApp
+                        title="View Bottom Tab Bar"
+                        onPress={() => navigation.navigate("BottomTabsDemo")}
+                    />
+
+                    <View style={{ height: spacing.sm }} />
+                </AppCard>
+
+                {/* ================= Tab Navigation ================= */}
+                <AppCard style={{ margin: spacing.lg }}>
+                    <AppText variant="title" style={{ marginBottom: 12 }}>
+                        Tabs Demo
+                    </AppText>
+
+                    <BtnApp
+                        title="View Top Tabs Bar"
+                        onPress={() => navigation.navigate("AppTabDemo")}
+                    />
 
 
-
-
-
-
+                </AppCard>
 
                 {/* ================= Icon Button ================= */}
                 <AppCard gap={spacing.md}>
