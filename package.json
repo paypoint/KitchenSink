@@ -1,5 +1,5 @@
 {
-  "name": "KitchenSink",
+  "name": "kitchensink",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -22,7 +22,6 @@
     "react-native-device-info": "^15.0.1",
     "react-native-element-dropdown": "^2.12.4",
     "react-native-gesture-handler": "^2.30.0",
-    "react-native-haptic-feedback": "^2.3.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-pager-view": "^8.0.0",
     "react-native-reanimated": "^4.2.1",
