@@ -6,7 +6,7 @@ import { types as PickerTypes } from "@react-native-documents/picker";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-import { spacing } from '../theme';
+import { colors, spacing } from '../theme';
 
 import { AppCard } from '../components/AppCard';
 import { AppText } from '../components/AppText';
@@ -303,7 +303,7 @@ const KitchenSink = () => {
                         Toggle Buttons
                     </AppText>
 
-                    <BtnGroup>
+                    <BtnGroup style={{justifyContent:'space-evenly'}}>
                         <BtnToggle
                             label="Option A"
                             selected={selectedOption === "A"}
